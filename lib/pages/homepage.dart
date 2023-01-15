@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:netflixclone/LandingPage/titlepage.dart';
 import 'package:netflixclone/pages/homepage_items.dart';
 
 class HomePage extends StatefulWidget {
@@ -189,15 +190,24 @@ class _HomePageState extends State<HomePage> {
                             padding: const EdgeInsets.only(left: 10.0),
                             child: Row(
                                 children: List.generate(mylist.length, (index) {
-                              return Container(
-                                margin: EdgeInsets.only(right: 8),
-                                height: size.height * 0.17,
-                                width: size.width * 0.25,
-                                decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                        image: AssetImage(mylist[index]['img']),
-                                        fit: BoxFit.cover),
-                                    borderRadius: BorderRadius.circular(6)),
+                              return GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => TitlePage()));
+                                },
+                                child: Container(
+                                  margin: EdgeInsets.only(right: 8),
+                                  height: size.height * 0.17,
+                                  width: size.width * 0.25,
+                                  decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                          image:
+                                              AssetImage(mylist[index]['img']),
+                                          fit: BoxFit.cover),
+                                      borderRadius: BorderRadius.circular(6)),
+                                ),
                               );
                             })),
                           ),
