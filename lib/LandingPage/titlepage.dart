@@ -4,6 +4,7 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:netflixclone/LandingPage/tabbar_pg.dart';
+import 'package:netflixclone/LandingPage/video_controller.dart';
 import 'package:netflixclone/pages/homepage.dart';
 import 'package:netflixclone/pages/navigator.dart';
 import 'package:video_player/video_player.dart';
@@ -120,7 +121,10 @@ class _TitlePageState extends State<TitlePage> {
                           ),
                           fixedSize: MaterialStateProperty.all<Size>(
                               Size.fromWidth(size.width))),
-                      onPressed: null,
+                      onPressed: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => FullScreenVid())),
                       child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -407,144 +411,4 @@ class _TitlePageState extends State<TitlePage> {
       ],
     );
   }
-}
-
-//Video Mfknn shit.
-
-class VideoController extends StatefulWidget {
-  const VideoController({Key? key}) : super(key: key);
-
-  @override
-  State<VideoController> createState() => _VideoPlayerState();
-}
-
-class _VideoPlayerState extends State<VideoController> {
-  late VideoPlayerController controller;
-  final asset = 'assets/videos/SoClose-ThomasShelby.mp4';
-
-  @override
-  void initState() {
-    super.initState();
-    controller = VideoPlayerController.asset(asset)
-      ..addListener(() => setState(() {}))
-      ..setLooping(
-          true) //if u can after vid finishes : pause it and add a peaky blinders logo
-      ..initialize().then((_) => controller.play());
-  }
-
-  @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    final isMuted = controller.value.volume == 0;
-    return Stack(children: [
-      VideoPlayerWidget(controller: controller),
-      if (controller != null && controller.value.isInitialized)
-        Positioned(
-          top: size.height * 0.185,
-          left: size.width * 0.85,
-          child: IconButton(
-            icon: Icon(
-              isMuted ? Icons.volume_off : Icons.volume_up,
-              color: Colors.white,
-              size: 20,
-            ),
-            onPressed: () => controller.setVolume(isMuted ? 1 : 0),
-          ),
-        ),
-      Positioned(
-        top: size.height * 0.205,
-        left: size.width * 0.02,
-        child: Container(
-          width: size.width * 0.16,
-          height: size.height * 0.026,
-          decoration: BoxDecoration(color: Colors.black.withOpacity(0.39)),
-          child: Center(
-            child: Text('Preview',
-                style: GoogleFonts.ptSans(color: Colors.white, fontSize: 15)),
-          ),
-        ),
-      )
-    ]);
-  }
-}
-
-class VideoPlayerWidget extends StatelessWidget {
-  final VideoPlayerController controller;
-
-  const VideoPlayerWidget({
-    Key? key,
-    required this.controller,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    return controller != null && controller.value.isInitialized
-        ? Container(
-            alignment: Alignment.topCenter,
-            child: buildVideo(),
-          )
-        : Container(
-            height: 100,
-            child: Center(child: CircularProgressIndicator()),
-          );
-  }
-
-  Widget buildVideo() => Stack(children: <Widget>[
-        buildVideoPlayer(),
-        Positioned.fill(child: BasicOverlayWidget(controller: controller)),
-      ]);
-
-  Widget buildVideoPlayer() => AspectRatio(
-      aspectRatio: controller.value.aspectRatio,
-      child: VideoPlayer(controller));
-}
-
-class BasicOverlayWidget extends StatelessWidget {
-  final VideoPlayerController controller;
-
-  const BasicOverlayWidget({
-    Key? key,
-    required this.controller,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) => GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: () =>
-            controller.value.isPlaying ? controller.pause() : controller.play(),
-        child: Stack(
-          children: <Widget>[
-            buildPlay(),
-            Positioned(
-              bottom: 0,
-              left: 0,
-              right: 0,
-              child: buildIndicator(),
-            ),
-          ],
-        ),
-      );
-
-  Widget buildIndicator() => VideoProgressIndicator(
-        controller,
-        allowScrubbing: true,
-        colors: VideoProgressColors(
-            backgroundColor: Color.fromARGB(255, 115, 11, 3),
-            playedColor: Color.fromARGB(255, 225, 26, 12)),
-      );
-
-  Widget buildPlay() => controller.value.isPlaying
-      ? Container()
-      : Container(
-          alignment: Alignment.center,
-          color: Colors.black26,
-          child: Icon(Icons.play_arrow, color: Colors.white, size: 80),
-        );
 }
