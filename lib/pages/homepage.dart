@@ -1,3 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -177,9 +180,10 @@ class _HomePageState extends State<HomePage> {
                         Text(
                           "My List",
                           style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontWeight: FontWeight.w600),
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                         SizedBox(
                           height: 10,
@@ -189,27 +193,48 @@ class _HomePageState extends State<HomePage> {
                           child: Padding(
                             padding: const EdgeInsets.only(left: 10.0),
                             child: Row(
-                                children: List.generate(mylist.length, (index) {
-                              return GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
+                              children:
+                                  List.generate(myListData.length, (index) {
+                                final imageUrl = myListData[index]['imageUrl'];
+                                final hasValidImage =
+                                    imageUrl != null && imageUrl.isNotEmpty;
+
+                                print(imageUrl);
+
+                                return GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => TitlePage()));
-                                },
-                                child: Container(
-                                  margin: EdgeInsets.only(right: 8),
-                                  height: size.height * 0.17,
-                                  width: size.width * 0.25,
-                                  decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                          image:
-                                              AssetImage(mylist[index]['img']),
-                                          fit: BoxFit.cover),
-                                      borderRadius: BorderRadius.circular(6)),
-                                ),
-                              );
-                            })),
+                                          builder: (context) => TitlePage()),
+                                    );
+                                  },
+                                  child: hasValidImage
+                                      ? Container(
+                                          margin: EdgeInsets.only(right: 8),
+                                          height: size.height * 0.17,
+                                          width: size.width * 0.25,
+                                          decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                              image: NetworkImage(imageUrl),
+                                              fit: BoxFit.cover,
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(6),
+                                          ),
+                                        )
+                                      : Container(
+                                          height: 0,
+                                          width: 0,
+                                          // margin: EdgeInsets.only(right: 8),
+                                          // height: size.height * 0.17,
+                                          // width: size.width * 0.25,
+                                          color:
+                                              Colors.grey, // Placeholder color
+                                        ),
+                                );
+                              }),
+                            ),
                           ),
                         ),
                       ],
@@ -226,9 +251,10 @@ class _HomePageState extends State<HomePage> {
                         Text(
                           "Anime",
                           style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontWeight: FontWeight.w600),
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                         SizedBox(
                           height: 10,
@@ -238,20 +264,46 @@ class _HomePageState extends State<HomePage> {
                           child: Padding(
                             padding: const EdgeInsets.only(left: 10.0),
                             child: Row(
-                                children:
-                                    List.generate(animeList.length, (index) {
-                              return Container(
-                                margin: EdgeInsets.only(right: 8),
-                                height: size.height * 0.17,
-                                width: size.width * 0.25,
-                                decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                        image:
-                                            AssetImage(animeList[index]['img']),
-                                        fit: BoxFit.cover),
-                                    borderRadius: BorderRadius.circular(6)),
-                              );
-                            })),
+                              children:
+                                  List.generate(animeData.length, (index) {
+                                final imageUrl = animeData[index]['imageUrl'];
+                                final hasValidImage =
+                                    imageUrl != null && imageUrl.isNotEmpty;
+
+                                return GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => TitlePage()),
+                                    );
+                                  },
+                                  child: hasValidImage
+                                      ? Container(
+                                          margin: EdgeInsets.only(right: 8),
+                                          height: size.height * 0.17,
+                                          width: size.width * 0.25,
+                                          decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                              image: NetworkImage(imageUrl),
+                                              fit: BoxFit.cover,
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(6),
+                                          ),
+                                        )
+                                      : Container(
+                                          height: 0,
+                                          width: 0,
+                                          // margin: EdgeInsets.only(right: 8),
+                                          // height: size.height * 0.17,
+                                          // width: size.width * 0.25,
+                                          color:
+                                              Colors.grey, // Placeholder color
+                                        ),
+                                );
+                              }),
+                            ),
                           ),
                         ),
                       ],
@@ -268,9 +320,10 @@ class _HomePageState extends State<HomePage> {
                         Text(
                           "Popular On Netflix",
                           style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontWeight: FontWeight.w600),
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                         SizedBox(
                           height: 10,
@@ -280,20 +333,47 @@ class _HomePageState extends State<HomePage> {
                           child: Padding(
                             padding: const EdgeInsets.only(left: 10.0),
                             child: Row(
-                                children:
-                                    List.generate(popularList.length, (index) {
-                              return Container(
-                                margin: EdgeInsets.only(right: 8),
-                                height: size.height * 0.17,
-                                width: size.width * 0.25,
-                                decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                        image: AssetImage(
-                                            popularList[index]['img']),
-                                        fit: BoxFit.cover),
-                                    borderRadius: BorderRadius.circular(6)),
-                              );
-                            })),
+                              children: List.generate(popularListData.length,
+                                  (index) {
+                                final imageUrl =
+                                    popularListData[index]['imageUrl'];
+                                final hasValidImage =
+                                    imageUrl != null && imageUrl.isNotEmpty;
+
+                                return GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => TitlePage()),
+                                    );
+                                  },
+                                  child: hasValidImage
+                                      ? Container(
+                                          margin: EdgeInsets.only(right: 8),
+                                          height: size.height * 0.17,
+                                          width: size.width * 0.25,
+                                          decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                              image: NetworkImage(imageUrl),
+                                              fit: BoxFit.cover,
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(6),
+                                          ),
+                                        )
+                                      : Container(
+                                          height: 0,
+                                          width: 0,
+                                          // margin: EdgeInsets.only(right: 8),
+                                          // height: size.height * 0.17,
+                                          // width: size.width * 0.25,
+                                          color:
+                                              Colors.grey, // Placeholder color
+                                        ),
+                                );
+                              }),
+                            ),
                           ),
                         ),
                       ],
@@ -310,9 +390,10 @@ class _HomePageState extends State<HomePage> {
                         Text(
                           "Trending Now",
                           style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontWeight: FontWeight.w600),
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                         SizedBox(
                           height: 10,
@@ -322,20 +403,47 @@ class _HomePageState extends State<HomePage> {
                           child: Padding(
                             padding: const EdgeInsets.only(left: 10.0),
                             child: Row(
-                                children:
-                                    List.generate(trendingList.length, (index) {
-                              return Container(
-                                margin: EdgeInsets.only(right: 8),
-                                height: size.height * 0.17,
-                                width: size.width * 0.25,
-                                decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                        image: AssetImage(
-                                            trendingList[index]['img']),
-                                        fit: BoxFit.cover),
-                                    borderRadius: BorderRadius.circular(6)),
-                              );
-                            })),
+                              children: List.generate(trendingListData.length,
+                                  (index) {
+                                final imageUrl =
+                                    trendingListData[index]['imageUrl'];
+                                final hasValidImage =
+                                    imageUrl != null && imageUrl.isNotEmpty;
+
+                                return GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => TitlePage()),
+                                    );
+                                  },
+                                  child: hasValidImage
+                                      ? Container(
+                                          margin: EdgeInsets.only(right: 8),
+                                          height: size.height * 0.17,
+                                          width: size.width * 0.25,
+                                          decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                              image: NetworkImage(imageUrl),
+                                              fit: BoxFit.cover,
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(6),
+                                          ),
+                                        )
+                                      : Container(
+                                          height: 0,
+                                          width: 0,
+                                          // margin: EdgeInsets.only(right: 8),
+                                          // height: size.height * 0.17,
+                                          // width: size.width * 0.25,
+                                          color:
+                                              Colors.grey, // Placeholder color
+                                        ),
+                                );
+                              }),
+                            ),
                           ),
                         ),
                       ],
@@ -352,9 +460,10 @@ class _HomePageState extends State<HomePage> {
                         Text(
                           "Movies",
                           style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontWeight: FontWeight.w600),
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                         SizedBox(
                           height: 10,
@@ -364,18 +473,46 @@ class _HomePageState extends State<HomePage> {
                           child: Padding(
                             padding: const EdgeInsets.only(left: 10.0),
                             child: Row(
-                                children: List.generate(movies.length, (index) {
-                              return Container(
-                                margin: EdgeInsets.only(right: 8),
-                                height: size.height * 0.17,
-                                width: size.width * 0.25,
-                                decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                        image: AssetImage(movies[index]['img']),
-                                        fit: BoxFit.cover),
-                                    borderRadius: BorderRadius.circular(6)),
-                              );
-                            })),
+                              children:
+                                  List.generate(moviesData.length, (index) {
+                                final imageUrl = moviesData[index]['imageUrl'];
+                                final hasValidImage =
+                                    imageUrl != null && imageUrl.isNotEmpty;
+
+                                return GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => TitlePage()),
+                                    );
+                                  },
+                                  child: hasValidImage
+                                      ? Container(
+                                          margin: EdgeInsets.only(right: 8),
+                                          height: size.height * 0.17,
+                                          width: size.width * 0.25,
+                                          decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                              image: NetworkImage(imageUrl),
+                                              fit: BoxFit.cover,
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(6),
+                                          ),
+                                        )
+                                      : Container(
+                                          height: 0,
+                                          width: 0,
+                                          // margin: EdgeInsets.only(right: 8),
+                                          // height: size.height * 0.17,
+                                          // width: size.width * 0.25,
+                                          color:
+                                              Colors.grey, // Placeholder color
+                                        ),
+                                );
+                              }),
+                            ),
                           ),
                         ),
                       ],
@@ -414,7 +551,7 @@ class _HomePageState extends State<HomePage> {
                                 onPressed: () {}),
                             IconButton(
                                 icon: Image.asset(
-                                  "/assets/images/profile.jpeg",
+                                  'assets/images/ProfileImg.jpg',
                                   fit: BoxFit.cover,
                                   width: 26,
                                   height: 26,

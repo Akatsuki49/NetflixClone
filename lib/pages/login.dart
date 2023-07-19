@@ -1,6 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:netflixclone/pages/homepage_items.dart';
 import 'package:netflixclone/pages/navigator.dart';
+import 'package:skeletons/skeletons.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -112,10 +115,33 @@ class _LoginState extends State<Login> {
             ),
             SizedBox(height: height * 0.03),
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
                 // Continue button onPressed action
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => Navgator()));
+                await FirebaseAuth.instance.signInAnonymously();
+                // await fetchData();
+                // Navigator.push(context,
+                //     MaterialPageRoute(builder: (context) => Navgator()));
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(builder: (context) => LoadingScreen()),
+                // ).then((_) async {
+                //   // Continue with data fetching only if LoadingScreen is popped
+                //   await FirebaseAuth.instance.signInAnonymously();
+                //   await fetchData();
+                //   Navigator.pushReplacement(
+                //     context,
+                //     MaterialPageRoute(builder: (context) => Navigator()),
+                //   );
+                // });
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => LoadingScreen()),
+                ).then((_) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Navgator()),
+                  );
+                });
               },
               style: ElevatedButton.styleFrom(
                 primary: Color(0xffE50914), // Netflix theme color (red)
@@ -141,6 +167,34 @@ class _LoginState extends State<Login> {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget LoadingScreen() {
+    return Scaffold(
+      backgroundColor: Colors.black,
+      body: FutureBuilder(
+        future: fetchData(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return SkeletonListView();
+          } else {
+            if (snapshot.hasError) {
+              return Center(
+                child: Text('Error occurred while fetching data'),
+              );
+            } else {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Navgator()),
+                );
+              });
+              return Container();
+            }
+          }
+        },
       ),
     );
   }

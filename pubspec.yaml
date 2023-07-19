@@ -33,6 +33,11 @@ dependencies:
   lottie: ^1.4.2
   flick_video_player: ^0.5.0
   provider: ^6.0.5
+  firebase_core: ^2.15.0
+  cloud_firestore: ^4.8.3
+  firebase_storage: ^11.2.5
+  firebase_auth: ^4.7.1
+  skeletons: ^0.0.3
 
 dev_dependencies:
   flutter_test:
@@ -54,7 +59,7 @@ flutter:
     - assets/videos/
 
     - assets/animations/
-    
+
   #   - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
