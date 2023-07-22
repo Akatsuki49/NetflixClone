@@ -19,9 +19,11 @@ Future<List<Map<String, dynamic>>> fetchTilesData(String category) async {
       if (categories.contains(category)) {
         // Fetch image from Firebase Storage
         String imagePath = 'images/$title';
+        String vidPath = 'videos/$title';
         Reference imageRef;
         String imageUrl;
-
+        Reference vidRef;
+        String vidUrl;
         // Specify the image format based on allowed formats (jpeg, png, webp)
         try {
           imageRef = FirebaseStorage.instance.ref('$imagePath.jpeg');
@@ -41,9 +43,18 @@ Future<List<Map<String, dynamic>>> fetchTilesData(String category) async {
           }
         }
 
+        try {
+          vidRef = FirebaseStorage.instance.ref('$vidPath.mp4');
+          vidUrl = await vidRef.getDownloadURL();
+        } catch (e) {
+          print('Error fetching video: $e');
+          vidUrl = 'NOOO';
+        }
+
         Map<String, dynamic> tileData = {
           'title': title,
           'imageUrl': imageUrl,
+          'videoUrl': vidUrl,
         };
         tilesData.add(tileData);
       }
@@ -83,49 +94,49 @@ List nvbar = [
   {"icon": AntDesign.home, "text": "Home"},
   {"icon": AntDesign.download, "text": "Downloads"},
 ];
-const List mylist = [
-  {"img": "assets/images/img1.png"},
-  {"img": "assets/images/img21.jpeg"},
-  {"img": "assets/images/img25.jpeg"},
-  {"img": "assets/images/img5.png"},
-  {"img": "assets/images/img18.png"},
-];
+// const List mylist = [
+//   {"img": "assets/images/img1.png"},
+//   {"img": "assets/images/img21.jpeg"},
+//   {"img": "assets/images/img25.jpeg"},
+//   {"img": "assets/images/img5.png"},
+//   {"img": "assets/images/img18.png"},
+// ];
 
-const List popularList = [
-  {"img": "assets/images/img_5.png"},
-  {"img": "assets/images/img_6.png"},
-  {"img": "assets/images/img_7.png"},
-  {"img": "assets/images/img2.png"},
-  {"img": "assets/images/img_8.png"},
-];
+// const List popularList = [
+//   {"img": "assets/images/img_5.png"},
+//   {"img": "assets/images/img_6.png"},
+//   {"img": "assets/images/img_7.png"},
+//   {"img": "assets/images/img2.png"},
+//   {"img": "assets/images/img_8.png"},
+// ];
 
-const List trendingList = [
-  {"img": "assets/images/img15.png"},
-  {"img": "assets/images/img19.png"},
-  {"img": "assets/images/img14.png"},
-  {"img": "assets/images/img16.png"},
-  {"img": "assets/images/img_9.png"},
-];
+// const List trendingList = [
+//   {"img": "assets/images/img15.png"},
+//   {"img": "assets/images/img19.png"},
+//   {"img": "assets/images/img14.png"},
+//   {"img": "assets/images/img16.png"},
+//   {"img": "assets/images/img_9.png"},
+// ];
 
-const List originalList = [
-  {"img": "assets/images/img_13.png"},
-  {"img": "assets/images/img_14.png"},
-  {"img": "assets/images/img_15.png"},
-  {"img": "assets/images/img_16.png"},
-];
-const List animeList = [
-  {"img": "assets/images/img_17.png"},
-  {"img": "assets/images/img23.jpeg"},
-  {"img": "assets/images/img22.jpeg"},
-  {"img": "assets/images/img_18.png"},
-  {"img": "assets/images/img_19.png"},
-];
+// const List originalList = [
+//   {"img": "assets/images/img_13.png"},
+//   {"img": "assets/images/img_14.png"},
+//   {"img": "assets/images/img_15.png"},
+//   {"img": "assets/images/img_16.png"},
+// ];
+// const List animeList = [
+//   {"img": "assets/images/img_17.png"},
+//   {"img": "assets/images/img23.jpeg"},
+//   {"img": "assets/images/img22.jpeg"},
+//   {"img": "assets/images/img_18.png"},
+//   {"img": "assets/images/img_19.png"},
+// ];
 
-const List movies = [
-  {"img": "assets/images/img31.jpeg"},
-  {"img": "assets/images/img32.jpeg"},
-  {"img": "assets/images/img33.jpeg"},
-  {"img": "assets/images/img34.jpeg"},
-  {"img": "assets/images/img35.jpeg"},
-  {"img": "assets/images/img30.jpeg"},
-];
+// const List movies = [
+//   {"img": "assets/images/img31.jpeg"},
+//   {"img": "assets/images/img32.jpeg"},
+//   {"img": "assets/images/img33.jpeg"},
+//   {"img": "assets/images/img34.jpeg"},
+//   {"img": "assets/images/img35.jpeg"},
+//   {"img": "assets/images/img30.jpeg"},
+// ];

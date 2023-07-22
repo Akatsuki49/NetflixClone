@@ -143,7 +143,17 @@ class _HomePageState extends State<HomePage> {
                             ),
                           ),
                         ),
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => TitlePage(
+                                      title: 'Demon Slayer',
+                                      videoUrl:
+                                          'https://firebasestorage.googleapis.com/v0/b/netflixclone-84f8a.appspot.com/o/videos%2FDemon%20Slayer.mp4?alt=media&token=09255e59-8095-4904-bb62-a36302305953',
+                                    )),
+                          );
+                        },
                       ),
                       GestureDetector(
                         child: Column(
@@ -195,18 +205,27 @@ class _HomePageState extends State<HomePage> {
                             child: Row(
                               children:
                                   List.generate(myListData.length, (index) {
+                                print("Printing each item");
+                                // print(myListData[index]);
+                                final Title =
+                                    myListData[index]['title'] as String;
+
                                 final imageUrl = myListData[index]['imageUrl'];
+                                final videoUrl = myListData[index]['videoUrl'];
                                 final hasValidImage =
                                     imageUrl != null && imageUrl.isNotEmpty;
-
-                                print(imageUrl);
+                                print(Title);
+                                // print(imageUrl);
 
                                 return GestureDetector(
                                   onTap: () {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => TitlePage()),
+                                          builder: (context) => TitlePage(
+                                                title: Title,
+                                                videoUrl: videoUrl,
+                                              )),
                                     );
                                   },
                                   child: hasValidImage
@@ -266,7 +285,9 @@ class _HomePageState extends State<HomePage> {
                             child: Row(
                               children:
                                   List.generate(animeData.length, (index) {
+                                final Title = animeData[index]['title'];
                                 final imageUrl = animeData[index]['imageUrl'];
+                                final videoUrl = animeData[index]['videoUrl'];
                                 final hasValidImage =
                                     imageUrl != null && imageUrl.isNotEmpty;
 
@@ -275,7 +296,10 @@ class _HomePageState extends State<HomePage> {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => TitlePage()),
+                                          builder: (context) => TitlePage(
+                                                title: Title,
+                                                videoUrl: videoUrl,
+                                              )),
                                     );
                                   },
                                   child: hasValidImage
@@ -335,8 +359,11 @@ class _HomePageState extends State<HomePage> {
                             child: Row(
                               children: List.generate(popularListData.length,
                                   (index) {
+                                final Title = popularListData[index]['title'];
                                 final imageUrl =
                                     popularListData[index]['imageUrl'];
+                                final videoUrl =
+                                    popularListData[index]['videoUrl'];
                                 final hasValidImage =
                                     imageUrl != null && imageUrl.isNotEmpty;
 
@@ -345,7 +372,10 @@ class _HomePageState extends State<HomePage> {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => TitlePage()),
+                                          builder: (context) => TitlePage(
+                                                title: Title,
+                                                videoUrl: videoUrl,
+                                              )),
                                     );
                                   },
                                   child: hasValidImage
@@ -405,8 +435,11 @@ class _HomePageState extends State<HomePage> {
                             child: Row(
                               children: List.generate(trendingListData.length,
                                   (index) {
+                                final Title = trendingListData[index]['title'];
                                 final imageUrl =
                                     trendingListData[index]['imageUrl'];
+                                final videoUrl =
+                                    trendingListData[index]['videoUrl'];
                                 final hasValidImage =
                                     imageUrl != null && imageUrl.isNotEmpty;
 
@@ -415,7 +448,10 @@ class _HomePageState extends State<HomePage> {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => TitlePage()),
+                                          builder: (context) => TitlePage(
+                                                title: Title,
+                                                videoUrl: videoUrl,
+                                              )),
                                     );
                                   },
                                   child: hasValidImage
@@ -475,17 +511,25 @@ class _HomePageState extends State<HomePage> {
                             child: Row(
                               children:
                                   List.generate(moviesData.length, (index) {
+                                final Title = moviesData[index]['title'];
                                 final imageUrl = moviesData[index]['imageUrl'];
+                                final videoUrl = moviesData[index]['videoUrl'];
                                 final hasValidImage =
                                     imageUrl != null && imageUrl.isNotEmpty;
 
                                 return GestureDetector(
                                   onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => TitlePage()),
-                                    );
+                                    print(Title);
+                                    print(imageUrl);
+                                    print(videoUrl);
+                                    // Navigator.push(
+                                    //   context,
+                                    //   MaterialPageRoute(
+                                    //       builder: (context) => TitlePage(
+                                    //             title: Title,
+                                    //             videoUrl: videoUrl,
+                                    //           )),
+                                    // );
                                   },
                                   child: hasValidImage
                                       ? Container(
