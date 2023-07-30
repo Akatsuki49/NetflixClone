@@ -14,3 +14,6 @@ Future<void> main() async {
     home: Splashscreen(),
   ));
 }
+
+
+//PROJECT OVER, WAS INDEED A FUN LEARNING EXPERIENCE 🎉
