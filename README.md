@@ -1,10 +1,10 @@
-# netflixclone
+# NetflixClone
 
 TechStack: Flutter, FirebaseFirestore, FirebaseStorage with Anonymous Auth for easy dev experience.
 
 Works on both IOS and Android devices!
 
-#Few ScreenShots:
+# Few ScreenShots:
 <p>
   <img src='https://github.com/Akatsuki49/NetflixClone/assets/95576716/d8257a00-5ae7-4e4b-bef2-33dba6a8405f' width='200'>
   &nbsp;
